@@ -3,6 +3,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('D:\\pro_AndroidStudio\\OtaHr40Demo\\key\\platform.keystore')
+            storePassword 'android'
+            keyPassword 'android'
+            keyAlias 'platform'
+        }
+    }
     compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
