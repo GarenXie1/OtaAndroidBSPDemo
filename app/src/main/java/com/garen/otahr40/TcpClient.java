@@ -20,12 +20,22 @@ public class TcpClient implements Runnable{
     private static DataOutputStream dout;
     private static Socket clientSocket;
     private static String TAG = "TcpClient";
+    private boolean isDownloadDone = false;
+    private OtaHr40 mOtaHr40 = null;
 
     //private static String HR40_OTA_PACKET_NAME = "0101-111222.pdf";    //  f65212d4f43046af22cdcdedee3739dc *0101-111222.pdf
     private static String HR40_OTA_PACKET_NAME = "OTA-HR40.EV.v7.20220511.1109.zip";    //  4fbdb63d6df21dd711a1f113c1a433de *OTA-HR40.EV.v7.20220511.1109.zip
 
     private static String HR40_OTA_PACKET_DIR = "/data/media/0/Download/";
 
+
+    public TcpClient(OtaHr40 ota){
+        mOtaHr40 = ota;
+    }
+
+    private String getOtaFileName(){
+        return HR40_OTA_PACKET_DIR + HR40_OTA_PACKET_NAME;
+    }
 
     @Override
     public void run() {
@@ -112,6 +122,9 @@ public class TcpClient implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // 升级 HR40 BSP 固件.
+        mOtaHr40.otaUpdate(getOtaFileName());
     }
 
 
@@ -156,6 +169,8 @@ public class TcpClient implements Runnable{
                 //Log.i(TAG,"current Szie :" + current + "; now bytesRead : " + bytesRead  );
                 // 当实际接收到字节大小 和 预期一样的时候，停止接收数据.
             }while (current != fileLength);
+
+            isDownloadDone = true;
 
             bos.close();
             Log.i(TAG,"        File " + fileName + " Successfully Downloaded!" );

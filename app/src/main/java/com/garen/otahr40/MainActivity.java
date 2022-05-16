@@ -27,13 +27,12 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 Log.i(TAG,"Will get HR40 OTA packet");
 
-                TcpClient tcpClient = new TcpClient();
+                Context context = getApplicationContext();
+                OtaHr40 ota = new OtaHr40(context);
+
+                TcpClient tcpClient = new TcpClient(ota);
                 new Thread(tcpClient).start();
 
-//                // 升级 HR40 BSP 固件.
-//                Context context = getApplicationContext();
-//                OtaHr40 ota = new OtaHr40(context);
-//                ota.otaUpdate();
             }
         });
     }
