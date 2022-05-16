@@ -16,7 +16,7 @@ public class OtaHr40 {
     }
 
     public void otaUpdate(){
-        String path = "/data/media/0/OTA-HR40.EV.v7.20220509.1125.zip";
+        String path = "/data/media/0/OTA-HR40.EV.v7.20220511.1109.zip";
         File otafile = new File(path);
         if(!otafile.exists()){
             Log.d(TAG,"not exist");
